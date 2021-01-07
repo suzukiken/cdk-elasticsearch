@@ -7,8 +7,8 @@ export class CdkelasticsearchStack extends cdk.Stack {
     super(scope, id, props);
 
     const DOMAIN_NAME = "cdkelasticsearch";
-    const DOMAIN_ARN =
-      "arn:aws:es:ap-northeast-1:656169322665:domain/" + DOMAIN_NAME;
+    //const DOMAIN_ARN =
+    //  "arn:aws:es:ap-northeast-1:656169322665:domain/" + DOMAIN_NAME;
 
     const acm_arn = ssm.StringParameter.fromStringParameterName(
       this,
@@ -51,14 +51,14 @@ export class CdkelasticsearchStack extends cdk.Stack {
       */
     });
 
-    new cdk.CfnOutput(this, "arn-output", {
-      value: domain.attrArn,
-      exportName: "cdkelasticsearch-domain-arn",
+    new ssm.StringParameter(this, "domain_endpoint_stringparameter", {
+      parameterName: "cdkelasticsearch-domain-endpoint",
+      stringValue: domain.attrDomainEndpoint,
     });
 
-    new cdk.CfnOutput(this, "endpoint-output", {
-      value: domain.attrDomainEndpoint,
-      exportName: "cdkelasticsearch-domain-endpoint-host",
+    new ssm.StringParameter(this, "domain_arn_stringparameter", {
+      parameterName: "cdkelasticsearch-domain-arn",
+      stringValue: domain.attrArn,
     });
   }
 }
