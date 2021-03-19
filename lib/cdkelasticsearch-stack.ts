@@ -1,26 +1,13 @@
 import * as cdk from "@aws-cdk/core";
 import * as es from "@aws-cdk/aws-elasticsearch";
-import * as ssm from "@aws-cdk/aws-ssm";
 
 export class CdkelasticsearchStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const DOMAIN_NAME = "cdkelasticsearch";
-    //const DOMAIN_ARN =
-    //  "arn:aws:es:ap-northeast-1:656169322665:domain/" + DOMAIN_NAME;
-
-    const acm_arn = ssm.StringParameter.fromStringParameterName(
-      this,
-      "acm_arn",
-      "acm-wildcard-figment-research-com-arn"
-    ).stringValue;
-
-    const custom_endpoint = ssm.StringParameter.fromStringParameterName(
-      this,
-      "custom_domain_name",
-      "elasticsearch-custom-endpoint"
-    ).stringValue;
+    const DOMAIN_NAME = id.toLocaleLowerCase().replace('stack','')
+    const acm_arn = 'arn:aws:acm:ap-northeast-1:0000000000:certificate/..............'
+    const custom_endpoint = 'elasticsearch.figmentresearch.com'
 
     const domain = new es.CfnDomain(this, "domain", {
       elasticsearchClusterConfig: { instanceType: "t2.micro.elasticsearch" },
@@ -49,16 +36,6 @@ export class CdkelasticsearchStack extends cdk.Stack {
         ],
       },
       */
-    });
-
-    new ssm.StringParameter(this, "domain_endpoint_stringparameter", {
-      parameterName: "cdkelasticsearch-domain-endpoint",
-      stringValue: domain.attrDomainEndpoint,
-    });
-
-    new ssm.StringParameter(this, "domain_arn_stringparameter", {
-      parameterName: "cdkelasticsearch-domain-arn",
-      stringValue: domain.attrArn,
     });
   }
 }
