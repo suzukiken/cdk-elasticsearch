@@ -5,4 +5,4 @@ To deploy Elasticsearch Service on t2.micro.
 * `npm install`
 * `cdk deploy`
 
-[description](https://figmentresearch.com/aws/cdkelasticsearch)
+[description](https://note.figmentresearch.com/aws/cdkelasticsearch)
