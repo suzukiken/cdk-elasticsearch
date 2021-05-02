@@ -20,7 +20,6 @@ export class CdkelasticsearchStack extends cdk.Stack {
         customEndpointCertificateArn: acm_arn,
         customEndpointEnabled: true,
       },
-
       /*
       accessPolicies: {
         Version: "2012-10-17",
@@ -28,10 +27,10 @@ export class CdkelasticsearchStack extends cdk.Stack {
           {
             Effect: "Allow",
             Principal: {
-              AWS: "*",
+              AWS: cdk.Stack.of(this).account,
             },
             Action: "es:ESHttp*",
-            Resource: DOMAIN_ARN,
+            Resource: "arn:aws:es:" + cdk.Stack.of(this).region + ":" + cdk.Stack.of(this).account + ":domain/" + DOMAIN_NAME,
           },
         ],
       },
